@@ -6,6 +6,19 @@ The main goal was to create a mobule that generates a HTML file, which contains 
 
 ## Reading a file
 
+At first, I used a function with argparcing to get the info user entered, and returned four variables
+
+```python
+def get_info():
+    parser = ArgumentParser()
+    parser.add_argument("year", help='Year of the films')
+    parser.add_argument("latitude", help='Latitude of your position')
+    parser.add_argument("longtitude", help="Longtitude of your position")
+    parser.add_argument("url", help="File url to get info from")
+    arguments = parser.parse_args()
+    return arguments.year, arguments.latitude, arguments.longtitude, arguments.url
+``` 
+
 ## Calculating distance and getting the ten films 
 
 ## Creating a map
