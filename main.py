@@ -1,8 +1,8 @@
 '''Lab 1.2'''
-from folium import FeatureGroup, Map, Marker, IFrame, Icon, Popup, LayerControl
 from csv import reader
-from argparse import ArgumentParser
 from re import findall, search
+from argparse import ArgumentParser
+from folium import FeatureGroup, Map, Marker, IFrame, Icon, Popup, LayerControl
 from geopy.geocoders import Nominatim
 from folium.plugins import MarkerCluster
 from geopy.distance import geodesic
@@ -71,11 +71,11 @@ def read_fil(path, needed_year):
             text += split_line[0] + ", "
 
             sup_text = ''
-            u = 0
+            u_check = 0
             two = False
             try:
                 if '\t' in all_places[-2]:
-                    u = 2
+                    u_check = 2
                     two = True
                     country = all_places[-2].split("\t")[0]
                     sup_text += country
@@ -89,14 +89,14 @@ def read_fil(path, needed_year):
             except IndexError:
                 pass
             if "\t" in all_places[-1]:
-                u = 2 if two else 1
+                u_check = 2 if two else 1
                 country = all_places[-1].split("\t")[0]
                 sup_text += country
                 sup_text += "; additional info: "
                 sup_text += all_places[-1].split("\t")[1][1:-1]
                 all_places.remove(all_places[-1])
                 all_places.append(country)
-            for i in range(len(all_places) - u):
+            for i in range(len(all_places) - u_check):
                 text += all_places[i]
                 text += ","
             text += sup_text
@@ -107,7 +107,7 @@ def read_fil(path, needed_year):
             i = 0
 
             try:
-                while loc == None:
+                while loc is None:
                     place_str = all_places[i]
                     for j in range(1 + i, len(all_places)):
                         place_str += ', ' + all_places[j]
@@ -115,7 +115,7 @@ def read_fil(path, needed_year):
                         loc = cashe_list[place_str]
                         break
                     loc = Nominatim(user_agent = "app_name").geocode(place_str)
-                    if loc != None:
+                    if loc is not None:
                         cashe_list[place_str] = loc
                         break
                     all_places = place_str.split(",")
@@ -140,7 +140,7 @@ def calculate_top_ten(working_films, latitude, longtitude):
         distance = geodesic(point_1, point_2).kilometers
         place.append(distance)
     working_films.sort(key = lambda x: x[-1])
-    working_films = working_films[:11]
+    working_films = working_films[:10]
 
     # combines films that were shot in the same place into one element
     for elem in working_films:
@@ -167,9 +167,9 @@ def buid_map(to_place_points, latitude, longtitude):
     markers_group = FeatureGroup(name = "Markers of films", show = False)
     iframe_group = FeatureGroup(name = "Full info about films", show = False)
     marker_cluster = MarkerCluster(locations, name = "Marker Cluster")
-    main_map.add_child(marker_cluster)
     main_map.add_child(markers_group)
     main_map.add_child(iframe_group)
+    main_map.add_child(marker_cluster)
 
     for place in to_place_points:
         text = to_place_points[place][1]
@@ -196,8 +196,10 @@ def buid_map(to_place_points, latitude, longtitude):
         # Creating the markers
         iframe_small = (IFrame(small_text, width = 75, height = 125))
         iframe_big = (IFrame(to_place_points[place][1], width = 300, height = 100))
-        markers_group.add_child(Marker(location = [place[0], place[1]], popup = Popup(iframe_small), icon = Icon(color = 'green')))
-        iframe_group.add_child(Marker(location = [place[0], place[1]], popup = Popup(iframe_big), icon = Icon(color = 'red')))
+        markers_group.add_child(Marker(location = [place[0], place[1]], popup = \
+                                Popup(iframe_small), icon = Icon(color = 'green')))
+        iframe_group.add_child(Marker(location = [place[0], place[1]], popup = \
+                                Popup(iframe_big), icon = Icon(color = 'red')))
 
     main_map.add_child(LayerControl())
     main_map.save('map.html')
