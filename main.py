@@ -27,6 +27,10 @@ def read_fil(path, needed_year):
     geographic coordinates
 
     Uses cashe_list to avoid calculating the same coordinate twice
+    >>> read_fil('l.list', 2016) #doctest: +ELLIPSIS
+    [['#ActorsLife (2016), New York City, New York, USA,',...
+    >>> read_fil('l.list', 2010) #doctest: +ELLIPSIS
+    [['$#*! My Dad Says (2010), Warner Brothers Burbank Studios...
     '''
     cashe_list = {}
     return_list = []
@@ -124,12 +128,33 @@ def read_fil(path, needed_year):
                 continue
 
             return_list.append([text, (loc.latitude, loc.longitude)])
-
     return return_list
 
 def calculate_top_ten(working_films, latitude, longtitude):
     '''
     Calculates the ten closest films to a location entered
+    >>> calculate_top_ten([['#ActorsLife (2016)', (40.7127281, -74.0060152)], \
+    ['#Fuga (2016)', (-22.9979553, -43.37311472822825)], \
+    ['#KillTorrey (2016)', (34.1816482, -118.3258554)], \
+    ['#LoveMyRoomie (2016)', (40.7127281, -74.0060152)], \
+    ['#LoveMyRoomie (2016) ', (40.6526006, -73.9497211)], \
+    ['#MyCurrentSituation: Atlanta (2016)', (33.7489924, -84.3902644)], \
+    ['#MyCurrentSituation: Atlanta (2016)', (35.1490215, -90.0516285)], \
+    ['#SmurTv (2016)', (37.270973, -79.9414313)], \
+    ['#SmurTv (2016)', (35.2272086, -80.8430827)], \
+    ['#SmurTv (2016)', (33.7489924, -84.3902644)]], -40, 70) #doctest: +ELLIPSIS
+    {(-22.9979553, -43.37311472822825): [10207.976489480665, '#Fuga (2016)'], (40.6526006, -73.9497211):...
+    >>> calculate_top_ten([['#ActorsLife (2016)', (40.7127281, -74.0060152)], \
+    ['#Fuga (2016)', (-22.9979553, -43.37311472822825)], \
+    ['#KillTorrey (2016)', (34.1816482, -118.3258554)], \
+    ['#LoveMyRoomie (2016)', (40.7127281, -74.0060152)], \
+    ['#LoveMyRoomie (2016) ', (40.6526006, -73.9497211)], \
+    ['#MyCurrentSituation: Atlanta (2016)', (33.7489924, -84.3902644)], \
+    ['#MyCurrentSituation: Atlanta (2016)', (35.1490215, -90.0516285)], \
+    ['#SmurTv (2016)', (37.270973, -79.9414313)], \
+    ['#SmurTv (2016)', (35.2272086, -80.8430827)], \
+    ['#SmurTv (2016)', (33.7489924, -84.3902644)]], -70, 30) #doctest: +ELLIPSIS
+    {(-22.9979553, -43.37311472822825): [6988.995927487033, '#Fuga (2016)'], (33.7489924, -84.3902644):...
     '''
     return_dict = {}
 
@@ -218,3 +243,6 @@ def main():
     buid_map(to_place_points, latitude, longtitude)
 
 main()
+
+import doctest
+doctest.testmod()
