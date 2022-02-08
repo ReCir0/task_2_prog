@@ -243,6 +243,3 @@ def main():
     buid_map(to_place_points, latitude, longtitude)
 
 main()
-
-import doctest
-doctest.testmod()
