@@ -50,7 +50,7 @@ for place in working_films:
     distance = geodesic(point_1, point_2).kilometers
     place.append(distance)
 working_films.sort(key = lambda x: x[-1])
-working_films = working_films[:11]
+working_films = working_films[:10]
 ```
 
 When the coordinates of places matched, I united them into one element using ' and '
