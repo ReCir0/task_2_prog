@@ -6,7 +6,7 @@ The main goal was to create a mobule that generates a HTML file, which contains 
 
 ## Reading a file
 
-I used a file that I was given. At first, I used a function with argparcing to get the info user entered, and returned four variables. A doctests made for this fuction were run on a shorter version of the file:
+I used a file that I was given. At first, I used a function with argparcing to get the info user entered, and returned four variables. A doctests made for this fuction were run on a shorter version of the file, "l.list":
 
 ```python
 def get_info():
